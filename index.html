@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Countdown</title>
+<title>G11 Exam Countdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -289,13 +289,13 @@ header{
 
 <header>
   <div class="logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="Exam Countdown">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="G11 Exam Countdown">
       <rect x="4" y="4" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
       <path d="M9 14h10M9 10h6M9 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       <circle cx="21" cy="7" r="4" fill="var(--color-bg)" stroke="currentColor" stroke-width="1.5"/>
       <path d="M21 5.5v2l1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    Exam Countdown
+    G11 Exam Countdown
   </div>
   <div class="header-right">
     <span id="live-clock">--:--:--</span>
@@ -309,14 +309,14 @@ header{
 
 <div class="hero">
   <div class="next-badge"><span class="pulse"></span><span id="next-label">Loading…</span></div>
-  <h1>Your IB Exams</h1>
-  <p>Real-time countdowns to every paper. May–June 2026.</p>
+  <h1>G11 End of Year Exams</h1>
+  <p>Tentative schedule — May 3rd version. Real-time countdowns to every paper.</p>
 </div>
 
 <div class="progress-section">
   <div class="progress-label">
     <span>Overall exam progress</span>
-    <span id="progress-text">0 / 11 completed</span>
+    <span id="progress-text">0 / 0 completed</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
 </div>
@@ -331,17 +331,55 @@ header{
 
 <script>
 const EXAMS = [
-  { id:1, subject:'Math AA HL', paper:'P1', session:'Morning',  date:'2026-05-31', color:'#4f98a3' },
-  { id:2, subject:'Math AA HL', paper:'P2', session:'Morning',  date:'2026-06-02', color:'#4f98a3' },
-  { id:3, subject:'Physics HL', paper:'P1', session:'Afternoon',date:'2026-06-04', color:'#d163a7' },
-  { id:4, subject:'Physics HL', paper:'P2', session:'Morning',  date:'2026-06-07', color:'#d163a7' },
-  { id:5, subject:'CS HL',      paper:'P1', session:'Afternoon',date:'2026-06-08', color:'#6daa45' },
-  { id:6, subject:'CS HL',      paper:'P2', session:'Morning',  date:'2026-06-09', color:'#6daa45' },
-  { id:7, subject:'Arabic B HL',paper:'P1+P2 Reading', session:'Afternoon', date:'2026-06-10', color:'#e8af34' },
-  { id:8, subject:'Economics HL',paper:'P3', session:'Morning', date:'2026-06-14', color:'#fdab43' },
-  { id:9, subject:'Economics HL',paper:'P2', session:'Afternoon',date:'2026-06-14', color:'#fdab43' },
-  { id:10,subject:'English A HL',paper:'P1', session:'Morning', date:'2026-06-15', color:'#a86fdf' },
-  { id:11,subject:'English A HL',paper:'P2', session:'Afternoon',date:'2026-06-15', color:'#a86fdf' },
+  // Sun 31-May
+  { id:1,  subject:'Math AA/AI HL', paper:'P1',              session:'Morning',   date:'2026-05-31', color:'#4f98a3' },
+  { id:2,  subject:'Arabic A HL/SL',paper:'P1',              session:'Afternoon', date:'2026-05-31', color:'#e8af34' },
+  // Mon 1-Jun
+  { id:3,  subject:'Math AA/AI HL', paper:'P2',              session:'Morning',   date:'2026-06-01', color:'#4f98a3' },
+  // Mon 1-Jun afternoon — empty per schedule
+  // Tue 2-Jun
+  { id:4,  subject:'Arabic A HL/SL',paper:'P2',              session:'Morning',   date:'2026-06-02', color:'#e8af34' },
+  { id:5,  subject:'BM HL',         paper:'P3',              session:'Afternoon', date:'2026-06-02', color:'#a86fdf' },
+  // Wed 3-Jun
+  { id:6,  subject:'BM HL/SL',      paper:'P2',              session:'Morning',   date:'2026-06-03', color:'#a86fdf' },
+  { id:7,  subject:'Physics HL/SL', paper:'P1',              session:'Afternoon', date:'2026-06-03', color:'#d163a7' },
+  // Thu 4-Jun
+  { id:8,  subject:'Physics HL/SL', paper:'P2',              session:'Morning',   date:'2026-06-04', color:'#d163a7' },
+  { id:9,  subject:'Psychology HL/SL',paper:'P2',            session:'Afternoon', date:'2026-06-04', color:'#5591c7' },
+  // Sun 7-Jun
+  { id:10, subject:'Spanish B',     paper:'Listening',       session:'Morning',   date:'2026-06-07', color:'#fdab43' },
+  { id:11, subject:'CS HL/SL',      paper:'P1',              session:'Afternoon', date:'2026-06-07', color:'#6daa45' },
+  { id:12, subject:'ESS SL',        paper:'P1',              session:'Afternoon', date:'2026-06-07', color:'#4f98a3' },
+  // Mon 8-Jun
+  { id:13, subject:'CS HL/SL',      paper:'P2',              session:'Morning',   date:'2026-06-08', color:'#6daa45' },
+  { id:14, subject:'ESS SL',        paper:'P2',              session:'Morning',   date:'2026-06-08', color:'#4f98a3' },
+  { id:15, subject:'Arabic B HL/SL',paper:'P1+P2 Reading',   session:'Afternoon', date:'2026-06-08', color:'#e8af34' },
+  { id:16, subject:'Spanish B',     paper:'P1+P2 Reading',   session:'Afternoon', date:'2026-06-08', color:'#fdab43' },
+  // Tue 9-Jun
+  { id:17, subject:'Chem HL/SL',    paper:'P1',              session:'Morning',   date:'2026-06-09', color:'#dd6974' },
+  { id:18, subject:'DT HL/SL',      paper:'P1',              session:'Morning',   date:'2026-06-09', color:'#bb653b' },
+  { id:19, subject:'Chem HL/SL',    paper:'P2',              session:'Afternoon', date:'2026-06-09', color:'#dd6974' },
+  { id:20, subject:'DT HL/SL',      paper:'P2',              session:'Afternoon', date:'2026-06-09', color:'#bb653b' },
+  // Wed 10-Jun
+  { id:21, subject:'English A HL/SL',paper:'P1',             session:'Morning',   date:'2026-06-10', color:'#a86fdf' },
+  { id:22, subject:'English B HL/SL',paper:'P1+P2 Reading',  session:'Morning',   date:'2026-06-10', color:'#7a39bb' },
+  { id:23, subject:'English A HL/SL',paper:'P2',             session:'Afternoon', date:'2026-06-10', color:'#a86fdf' },
+  { id:24, subject:'English B HL/SL',paper:'P1+P2 Listening',session:'Afternoon', date:'2026-06-10', color:'#7a39bb' },
+  // Thu 11-Jun
+  { id:25, subject:'Biology HL/SL', paper:'P1',              session:'Morning',   date:'2026-06-11', color:'#6daa45' },
+  { id:26, subject:'Biology HL/SL', paper:'P2',              session:'Afternoon', date:'2026-06-11', color:'#6daa45' },
+  // Sun 14-Jun
+  { id:27, subject:'Economics HL',  paper:'P3',              session:'Morning',   date:'2026-06-14', color:'#fdab43' },
+  { id:28, subject:'Economics HL/SL',paper:'P2',             session:'Afternoon', date:'2026-06-14', color:'#fdab43' },
+  // Mon 15-Jun
+  { id:29, subject:'GP HL/SL',      paper:'P1+P2',           session:'Morning',   date:'2026-06-15', color:'#5591c7' },
+  { id:30, subject:'GP HL/SL',      paper:'P3',              session:'Afternoon', date:'2026-06-15', color:'#5591c7' },
+];
+
+// Breaks: after Jun 4 (Fri 5 - Sat 6 weekend gap implied), after Jun 11 (Fri 12 - Sat 13)
+const BREAKS = [
+  { afterDate:'2026-06-04', label:'Weekend Break: Fri 5 – Sat 6 Jun', desc:'A short breather before the week 2 push.' },
+  { afterDate:'2026-06-11', label:'Weekend Break: Fri 12 – Sat 13 Jun', desc:'Last break before the final stretch.' },
 ];
 
 const SESSION_TIMES = { Morning: 8, Afternoon: 13 };
@@ -382,21 +420,26 @@ function renderGrid(filter) {
     if (dt > now && (!nextExam || dt < getExamDateTime(nextExam))) nextExam = e;
   });
 
-  let insertedBreak = false;
+  let breakIdx = 0;
 
   EXAMS.forEach((exam) => {
     const dt = getExamDateTime(exam);
     const isPast = dt <= now;
     const isNext = nextExam && exam.id === nextExam.id;
 
-    if (!insertedBreak && !isPast && new Date(exam.date) >= new Date('2026-06-14')) {
-      if (filter === 'all' || filter === 'upcoming') {
-        const breakEl = document.createElement('div');
-        breakEl.className = 'break-banner';
-        breakEl.innerHTML = '<h3>\uD83C\uDFD6 Break: Jun 11\u201313</h3><p>Three rest days before the final stretch. You\'ve earned it!</p>';
-        grid.appendChild(breakEl);
-      }
-      insertedBreak = true;
+    // Insert break banners
+    while (breakIdx < BREAKS.length) {
+      const brk = BREAKS[breakIdx];
+      const breakAfterDt = new Date(brk.afterDate + 'T23:59:59');
+      if (!isPast && dt > breakAfterDt) {
+        if (filter === 'all' || filter === 'upcoming') {
+          const breakEl = document.createElement('div');
+          breakEl.className = 'break-banner';
+          breakEl.innerHTML = '<h3>\uD83C\uDFD6 '+brk.label+'</h3><p>'+brk.desc+'</p>';
+          grid.appendChild(breakEl);
+        }
+        breakIdx++;
+      } else { break; }
     }
 
     if (filter === 'past' && !isPast) return;
