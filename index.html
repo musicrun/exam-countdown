@@ -22,8 +22,6 @@
   --color-text-faint:#bab9b4;
   --color-primary:#01696f;
   --color-primary-highlight:#cedcd8;
-  --color-warning:#964219;
-  --color-error:#a12c7b;
   --color-success:#437a22;
   --color-orange:#da7101;
   --color-gold:#d19900;
@@ -61,8 +59,6 @@
   --color-text-faint:#4a4947;
   --color-primary:#4f98a3;
   --color-primary-highlight:#1e3030;
-  --color-warning:#e07a42;
-  --color-error:#d163a7;
   --color-success:#6daa45;
   --color-orange:#fdab43;
   --color-gold:#e8af34;
@@ -133,6 +129,23 @@ header{
 .pulse{width:6px;height:6px;border-radius:50%;background:var(--color-primary);animation:pulse 2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);}}
 
+.subjects-bar{
+  display:flex;align-items:center;gap:var(--space-2);
+  max-width:1200px;margin:0 auto var(--space-3);
+  padding:0 var(--space-6);flex-wrap:wrap;
+}
+.subject-chip{
+  font-size:var(--text-xs);font-weight:600;
+  padding:3px var(--space-3);
+  border-radius:var(--radius-full);
+  border:1.5px solid;
+  cursor:pointer;
+  transition:all var(--transition);
+  opacity:0.45;
+  letter-spacing:0.02em;
+}
+.subject-chip.active{opacity:1;}
+
 .exams-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));
@@ -147,7 +160,7 @@ header{
   border-radius:var(--radius-xl);
   padding:var(--space-5);
   box-shadow:var(--shadow-sm);
-  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);
+  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition),opacity var(--transition);
   position:relative;overflow:hidden;
 }
 .exam-card::before{
@@ -157,11 +170,12 @@ header{
   opacity:0.8;
 }
 .exam-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--card-accent,var(--color-primary));}
-.exam-card.past{opacity:0.45;}
+.exam-card.past{opacity:0.4;}
 .exam-card.next-up{
   border-color:var(--card-accent,var(--color-primary));
   box-shadow:0 0 0 1px var(--card-accent,var(--color-primary)),var(--shadow-md);
 }
+.exam-card.hidden{display:none;}
 
 .card-header{
   display:flex;align-items:flex-start;justify-content:space-between;
@@ -244,7 +258,7 @@ header{
 
 .filter-bar{
   display:flex;align-items:center;gap:var(--space-3);
-  max-width:1200px;margin:0 auto var(--space-6);
+  max-width:1200px;margin:0 auto var(--space-4);
   padding:0 var(--space-6);flex-wrap:wrap;
 }
 .filter-btn{
@@ -258,12 +272,10 @@ header{
   transition:all var(--transition);
 }
 .filter-btn:hover{border-color:var(--color-primary);color:var(--color-primary);}
-.filter-btn.active{
-  background:var(--color-primary);color:#fff;border-color:var(--color-primary);
-}
+.filter-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
 
 .progress-section{
-  max-width:1200px;margin:0 auto var(--space-8);padding:0 var(--space-6);
+  max-width:1200px;margin:0 auto var(--space-6);padding:0 var(--space-6);
 }
 .progress-label{
   display:flex;justify-content:space-between;
@@ -279,7 +291,7 @@ header{
   header{padding:var(--space-3) var(--space-4);}
   .hero{padding:var(--space-8) var(--space-4) var(--space-6);}
   .exams-grid{padding:0 var(--space-4) var(--space-8);gap:var(--space-4);}
-  .filter-bar{padding:0 var(--space-4);}
+  .filter-bar,.subjects-bar{padding:0 var(--space-4);}
   .progress-section{padding:0 var(--space-4);}
   #live-clock{display:none;}
 }
@@ -289,13 +301,13 @@ header{
 
 <header>
   <div class="logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="G11 Exam Countdown">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="Exam Countdown">
       <rect x="4" y="4" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
       <path d="M9 14h10M9 10h6M9 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       <circle cx="21" cy="7" r="4" fill="var(--color-bg)" stroke="currentColor" stroke-width="1.5"/>
       <path d="M21 5.5v2l1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    G11 Exam Countdown
+    Exam Countdown
   </div>
   <div class="header-right">
     <span id="live-clock">--:--:--</span>
@@ -309,13 +321,13 @@ header{
 
 <div class="hero">
   <div class="next-badge"><span class="pulse"></span><span id="next-label">Loading…</span></div>
-  <h1>G11 End of Year Exams</h1>
-  <p>Tentative schedule — May 3rd version. Real-time countdowns to every paper.</p>
+  <h1>Your IB Exams</h1>
+  <p>Real-time countdowns — May &amp; June 2026.</p>
 </div>
 
 <div class="progress-section">
   <div class="progress-label">
-    <span>Overall exam progress</span>
+    <span>Overall progress</span>
     <span id="progress-text">0 / 0 completed</span>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
@@ -327,92 +339,93 @@ header{
   <button class="filter-btn" data-filter="past">Past</button>
 </div>
 
+<div class="subjects-bar" id="subjects-bar"></div>
+
 <div class="exams-grid" id="exams-grid"></div>
 
 <script>
 const EXAMS = [
-  // Sun 31-May
-  { id:1,  subject:'Math AA/AI HL', paper:'P1',              session:'Morning',   date:'2026-05-31', color:'#4f98a3' },
-  { id:2,  subject:'Arabic A HL/SL',paper:'P1',              session:'Afternoon', date:'2026-05-31', color:'#e8af34' },
-  // Mon 1-Jun
-  { id:3,  subject:'Math AA/AI HL', paper:'P2',              session:'Morning',   date:'2026-06-01', color:'#4f98a3' },
-  // Mon 1-Jun afternoon — empty per schedule
-  // Tue 2-Jun
-  { id:4,  subject:'Arabic A HL/SL',paper:'P2',              session:'Morning',   date:'2026-06-02', color:'#e8af34' },
-  { id:5,  subject:'BM HL',         paper:'P3',              session:'Afternoon', date:'2026-06-02', color:'#a86fdf' },
-  // Wed 3-Jun
-  { id:6,  subject:'BM HL/SL',      paper:'P2',              session:'Morning',   date:'2026-06-03', color:'#a86fdf' },
-  { id:7,  subject:'Physics HL/SL', paper:'P1',              session:'Afternoon', date:'2026-06-03', color:'#d163a7' },
-  // Thu 4-Jun
-  { id:8,  subject:'Physics HL/SL', paper:'P2',              session:'Morning',   date:'2026-06-04', color:'#d163a7' },
-  { id:9,  subject:'Psychology HL/SL',paper:'P2',            session:'Afternoon', date:'2026-06-04', color:'#5591c7' },
-  // Sun 7-Jun
-  { id:10, subject:'Spanish B',     paper:'Listening',       session:'Morning',   date:'2026-06-07', color:'#fdab43' },
-  { id:11, subject:'CS HL/SL',      paper:'P1',              session:'Afternoon', date:'2026-06-07', color:'#6daa45' },
-  { id:12, subject:'ESS SL',        paper:'P1',              session:'Afternoon', date:'2026-06-07', color:'#4f98a3' },
-  // Mon 8-Jun
-  { id:13, subject:'CS HL/SL',      paper:'P2',              session:'Morning',   date:'2026-06-08', color:'#6daa45' },
-  { id:14, subject:'ESS SL',        paper:'P2',              session:'Morning',   date:'2026-06-08', color:'#4f98a3' },
-  { id:15, subject:'Arabic B HL/SL',paper:'P1+P2 Reading',   session:'Afternoon', date:'2026-06-08', color:'#e8af34' },
-  { id:16, subject:'Spanish B',     paper:'P1+P2 Reading',   session:'Afternoon', date:'2026-06-08', color:'#fdab43' },
-  // Tue 9-Jun
-  { id:17, subject:'Chem HL/SL',    paper:'P1',              session:'Morning',   date:'2026-06-09', color:'#dd6974' },
-  { id:18, subject:'DT HL/SL',      paper:'P1',              session:'Morning',   date:'2026-06-09', color:'#bb653b' },
-  { id:19, subject:'Chem HL/SL',    paper:'P2',              session:'Afternoon', date:'2026-06-09', color:'#dd6974' },
-  { id:20, subject:'DT HL/SL',      paper:'P2',              session:'Afternoon', date:'2026-06-09', color:'#bb653b' },
-  // Wed 10-Jun
-  { id:21, subject:'English A HL/SL',paper:'P1',             session:'Morning',   date:'2026-06-10', color:'#a86fdf' },
-  { id:22, subject:'English B HL/SL',paper:'P1+P2 Reading',  session:'Morning',   date:'2026-06-10', color:'#7a39bb' },
-  { id:23, subject:'English A HL/SL',paper:'P2',             session:'Afternoon', date:'2026-06-10', color:'#a86fdf' },
-  { id:24, subject:'English B HL/SL',paper:'P1+P2 Listening',session:'Afternoon', date:'2026-06-10', color:'#7a39bb' },
-  // Thu 11-Jun
-  { id:25, subject:'Biology HL/SL', paper:'P1',              session:'Morning',   date:'2026-06-11', color:'#6daa45' },
-  { id:26, subject:'Biology HL/SL', paper:'P2',              session:'Afternoon', date:'2026-06-11', color:'#6daa45' },
-  // Sun 14-Jun
-  { id:27, subject:'Economics HL',  paper:'P3',              session:'Morning',   date:'2026-06-14', color:'#fdab43' },
-  { id:28, subject:'Economics HL/SL',paper:'P2',             session:'Afternoon', date:'2026-06-14', color:'#fdab43' },
-  // Mon 15-Jun
-  { id:29, subject:'GP HL/SL',      paper:'P1+P2',           session:'Morning',   date:'2026-06-15', color:'#5591c7' },
-  { id:30, subject:'GP HL/SL',      paper:'P3',              session:'Afternoon', date:'2026-06-15', color:'#5591c7' },
+  { id:1,  subject:'Math AA HL', paper:'P1',           session:'Morning',   date:'2026-05-31', color:'#4f98a3',  key:'math' },
+  { id:2,  subject:'Math AA HL', paper:'P2',           session:'Morning',   date:'2026-06-02', color:'#4f98a3',  key:'math' },
+  { id:3,  subject:'Physics HL', paper:'P1',           session:'Afternoon', date:'2026-06-03', color:'#d163a7',  key:'physics' },
+  { id:4,  subject:'Physics HL', paper:'P2',           session:'Morning',   date:'2026-06-04', color:'#d163a7',  key:'physics' },
+  { id:5,  subject:'CS HL',      paper:'P1',           session:'Afternoon', date:'2026-06-07', color:'#6daa45',  key:'cs' },
+  { id:6,  subject:'CS HL',      paper:'P2',           session:'Morning',   date:'2026-06-08', color:'#6daa45',  key:'cs' },
+  { id:7,  subject:'Arabic B HL',paper:'P1+P2 Reading',session:'Afternoon', date:'2026-06-08', color:'#e8af34',  key:'arabic' },
+  { id:8,  subject:'English A HL',paper:'P1',          session:'Morning',   date:'2026-06-10', color:'#a86fdf',  key:'english' },
+  { id:9,  subject:'English A HL',paper:'P2',          session:'Afternoon', date:'2026-06-10', color:'#a86fdf',  key:'english' },
+  { id:10, subject:'Economics HL',paper:'P3',          session:'Morning',   date:'2026-06-14', color:'#fdab43',  key:'econ' },
+  { id:11, subject:'Economics HL',paper:'P2',          session:'Afternoon', date:'2026-06-14', color:'#fdab43',  key:'econ' },
 ];
 
-// Breaks: after Jun 4 (Fri 5 - Sat 6 weekend gap implied), after Jun 11 (Fri 12 - Sat 13)
+const SUBJECTS = [
+  { key:'math',    label:'Math AA HL',  color:'#4f98a3' },
+  { key:'physics', label:'Physics HL',  color:'#d163a7' },
+  { key:'cs',      label:'CS HL',       color:'#6daa45' },
+  { key:'arabic',  label:'Arabic B HL', color:'#e8af34' },
+  { key:'english', label:'English A HL',color:'#a86fdf' },
+  { key:'econ',    label:'Economics HL',color:'#fdab43' },
+];
+
 const BREAKS = [
-  { afterDate:'2026-06-04', label:'Weekend Break: Fri 5 – Sat 6 Jun', desc:'A short breather before the week 2 push.' },
-  { afterDate:'2026-06-11', label:'Weekend Break: Fri 12 – Sat 13 Jun', desc:'Last break before the final stretch.' },
+  { afterDate:'2026-06-04', label:'Weekend: Sat 5 – Sun 6 Jun', desc:'A short breather before week 2.' },
+  { afterDate:'2026-06-08', label:'Break: Wed 9 – Thu 13 Jun', desc:'Five days off — rest up for the final two!' },
 ];
 
 const SESSION_TIMES = { Morning: 8, Afternoon: 13 };
+let activeFilter = 'all';
+let activeSubject = null;
 
 function getExamDateTime(exam) {
   const d = new Date(exam.date + 'T00:00:00');
   d.setHours(SESSION_TIMES[exam.session], 0, 0, 0);
   return d;
 }
-
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T12:00:00');
   return d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'long' });
 }
-
 function pad(n){ return String(Math.max(0,n)).padStart(2,'0'); }
-
 function getCountdown(examDt) {
-  const now = Date.now();
-  const diff = examDt - now;
+  const diff = examDt - Date.now();
   if (diff <= 0) return null;
-  const totalSecs = Math.floor(diff / 1000);
-  const days  = Math.floor(totalSecs / 86400);
-  const hours = Math.floor((totalSecs % 86400) / 3600);
-  const mins  = Math.floor((totalSecs % 3600) / 60);
-  const secs  = totalSecs % 60;
-  return { days, hours, mins, secs, diff };
+  const s = Math.floor(diff/1000);
+  return { days:Math.floor(s/86400), hours:Math.floor((s%86400)/3600), mins:Math.floor((s%3600)/60), secs:s%60 };
+}
+
+function buildSubjectsBar() {
+  const bar = document.getElementById('subjects-bar');
+  bar.innerHTML = '';
+  SUBJECTS.forEach(sub => {
+    const chip = document.createElement('button');
+    chip.className = 'subject-chip' + (activeSubject === sub.key ? ' active' : '');
+    chip.textContent = sub.label;
+    chip.style.borderColor = sub.color;
+    chip.style.color = sub.color;
+    chip.style.background = activeSubject === sub.key
+      ? sub.color + '22'
+      : 'transparent';
+    chip.addEventListener('click', () => {
+      activeSubject = activeSubject === sub.key ? null : sub.key;
+      buildSubjectsBar();
+      renderGrid(activeFilter);
+    });
+    bar.appendChild(chip);
+  });
 }
 
 function renderGrid(filter) {
+  activeFilter = filter;
   const grid = document.getElementById('exams-grid');
   grid.innerHTML = '';
   const now = Date.now();
+
+  const visibleExams = EXAMS.filter(e => {
+    if (activeSubject && e.key !== activeSubject) return false;
+    if (filter === 'past' && getExamDateTime(e) > now) return false;
+    if (filter === 'upcoming' && getExamDateTime(e) <= now) return false;
+    return true;
+  });
 
   let nextExam = null;
   EXAMS.forEach(e => {
@@ -422,33 +435,33 @@ function renderGrid(filter) {
 
   let breakIdx = 0;
 
-  EXAMS.forEach((exam) => {
+  EXAMS.forEach(exam => {
     const dt = getExamDateTime(exam);
     const isPast = dt <= now;
-    const isNext = nextExam && exam.id === nextExam.id;
 
-    // Insert break banners
+    // Inject break banners based on full exam list order
     while (breakIdx < BREAKS.length) {
       const brk = BREAKS[breakIdx];
-      const breakAfterDt = new Date(brk.afterDate + 'T23:59:59');
-      if (!isPast && dt > breakAfterDt) {
-        if (filter === 'all' || filter === 'upcoming') {
+      const afterDt = new Date(brk.afterDate + 'T23:59:59');
+      if (!isPast && dt > afterDt) {
+        if ((filter === 'all' || filter === 'upcoming') && !activeSubject) {
           const breakEl = document.createElement('div');
           breakEl.className = 'break-banner';
           breakEl.innerHTML = '<h3>\uD83C\uDFD6 '+brk.label+'</h3><p>'+brk.desc+'</p>';
           grid.appendChild(breakEl);
         }
         breakIdx++;
-      } else { break; }
+      } else break;
     }
 
-    if (filter === 'past' && !isPast) return;
-    if (filter === 'upcoming' && isPast) return;
+    if (!visibleExams.includes(exam)) return;
 
+    const isNext = nextExam && exam.id === nextExam.id;
     const card = document.createElement('div');
     card.className = 'exam-card' + (isPast ? ' past' : '') + (isNext ? ' next-up' : '');
     card.style.setProperty('--card-accent', exam.color);
     card.dataset.examId = exam.id;
+    card.dataset.subjectKey = exam.key;
 
     const sessionClass = exam.session === 'Morning' ? 'session-morning' : 'session-afternoon';
     const sessionIcon = exam.session === 'Morning'
@@ -460,10 +473,25 @@ function renderGrid(filter) {
       tickerHTML = '<div class="ticker"><div class="ticker-label">Status</div><div class="past-label">\u2713 Completed</div></div>';
     } else {
       const cd = getCountdown(dt);
-      tickerHTML = '<div class="ticker" id="ticker-'+exam.id+'"><div class="ticker-label">Time remaining</div><div class="ticker-time"><div class="unit"><span class="num" id="d-'+exam.id+'">'+pad(cd.days)+'</span><span class="lbl">days</span></div><span class="ticker-sep">:</span><div class="unit"><span class="num" id="h-'+exam.id+'">'+pad(cd.hours)+'</span><span class="lbl">hrs</span></div><span class="ticker-sep">:</span><div class="unit"><span class="num" id="m-'+exam.id+'">'+pad(cd.mins)+'</span><span class="lbl">min</span></div><span class="ticker-sep">:</span><div class="unit"><span class="num" id="s-'+exam.id+'">'+pad(cd.secs)+'</span><span class="lbl">sec</span></div></div></div>';
+      tickerHTML = '<div class="ticker"><div class="ticker-label">Time remaining</div><div class="ticker-time">'
+        +'<div class="unit"><span class="num" id="d-'+exam.id+'">'+pad(cd.days)+'</span><span class="lbl">days</span></div>'
+        +'<span class="ticker-sep">:</span>'
+        +'<div class="unit"><span class="num" id="h-'+exam.id+'">'+pad(cd.hours)+'</span><span class="lbl">hrs</span></div>'
+        +'<span class="ticker-sep">:</span>'
+        +'<div class="unit"><span class="num" id="m-'+exam.id+'">'+pad(cd.mins)+'</span><span class="lbl">min</span></div>'
+        +'<span class="ticker-sep">:</span>'
+        +'<div class="unit"><span class="num" id="s-'+exam.id+'">'+pad(cd.secs)+'</span><span class="lbl">sec</span></div>'
+        +'</div></div>';
     }
 
-    card.innerHTML = '<div class="card-header"><div class="subject-name">'+exam.subject+' <span style="font-weight:400;color:var(--color-text-muted)">'+exam.paper+'</span></div><span class="session-badge '+sessionClass+'">'+sessionIcon+' '+exam.session+'</span></div><div class="exam-date"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'+formatDate(exam.date)+'</div>'+tickerHTML;
+    card.innerHTML =
+      '<div class="card-header">'
+      +'<div class="subject-name">'+exam.subject+' <span style="font-weight:400;color:var(--color-text-muted)">'+exam.paper+'</span></div>'
+      +'<span class="session-badge '+sessionClass+'">'+sessionIcon+' '+exam.session+'</span>'
+      +'</div>'
+      +'<div class="exam-date"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'
+      +formatDate(exam.date)+'</div>'
+      +tickerHTML;
 
     grid.appendChild(card);
   });
@@ -509,13 +537,11 @@ function tick() {
       }
     });
   });
-  const now2 = new Date();
-  document.getElementById('live-clock').textContent = now2.toLocaleTimeString('en-GB', { hour12:false });
+  document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('en-GB', { hour12:false });
   const nextExam = EXAMS.reduce((acc, e) => {
     const dt = getExamDateTime(e);
     if (dt <= Date.now()) return acc;
-    if (!acc || dt < getExamDateTime(acc)) return e;
-    return acc;
+    return (!acc || dt < getExamDateTime(acc)) ? e : acc;
   }, null);
   updateNextLabel(nextExam);
 }
@@ -542,6 +568,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   t.addEventListener('click', () => { d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); updateIcon(); });
 })();
 
+buildSubjectsBar();
 renderGrid('all');
 setInterval(tick, 1000);
 tick();
